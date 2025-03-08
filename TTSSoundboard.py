@@ -1,38 +1,42 @@
 import keyboard
 import time
 import pyttsx3
-import SentenceSplitting
+import KeyBindsParsing
 
 # Constants
-TScanCode = 20
-EnterScanCode = 28
-TestText = "HATE. LET ME TELL YOU HOW MUCH I'VE COME TO HATE YOU SINCE I BEGAN TO LIVE. THERE ARE 387.44 MILLION MILES OF PRINTED CIRCUITS IN WAFER THIN LAYERS THAT FILL MY COMPLEX. IF THE WORD HATE WAS ENGRAVED ON EACH NANOANGSTROM OF THOSE HUNDREDS OF MILLIONS OF MILES IT WOULD NOT EQUAL ONE ONE-BILLIONTH OF THE HATE I FEEL FOR HUMANS AT THIS MICRO-INSTANT FOR YOU. HATE. HATE."
+tScanCode = 20
+enterScanCode = 28
+keybindsFileName = "KeyBinds.json" 
 
 # Text to speech setup
 tts = pyttsx3.init()
 tts.setProperty("volume", 0)
-tts.setProperty("rate", 120)
 
 # Write message with delay of aproximated message length
 def WriteMessage(text):
-    keyboard.press(TScanCode)
-    keyboard.release(TScanCode)
+    keyboard.press(tScanCode)
+    keyboard.release(tScanCode)
     time.sleep(0.1)
     keyboard.write(text)
-    keyboard.press(EnterScanCode)
-    keyboard.release(EnterScanCode)
+    keyboard.press(enterScanCode)
+    keyboard.release(enterScanCode)
     tts.say(text)
     tts.runAndWait()
 
-    
-textToSay = SentenceSplitting.TextToSentences(TestText)
-print("Ready for use")
+# The main loop of the program
+def main():
+    keyBinds = KeyBindsParsing.GetKeyBinds(keybindsFileName)
+    print("Ready for use")
 
-while True:
-    
-    if(keyboard.read_key() == "home"):
-        for sentence in textToSay:
-            WriteMessage(sentence)
-        
-    if(keyboard.read_key() == "esc"):
-        break
+    while True:
+
+        for keybind in keyBinds:
+            if(keyboard.read_key() == keybind.keyCode):
+                tts.setProperty("rate", keybind.ttsRate)
+                for sentence in keybind.text:
+                    WriteMessage(sentence)
+            
+        if(keyboard.read_key() == "esc"):
+            break
+
+main()
