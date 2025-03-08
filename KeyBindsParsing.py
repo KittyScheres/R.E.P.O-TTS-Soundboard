@@ -1,5 +1,5 @@
 import json
-import SentenceSplitting
+from SentenceSplitting import TextToSentences
 
 # Constants
 keybindsLable = "Keybinds"
@@ -34,7 +34,7 @@ def ParseJsonData(jsonData: json) -> dict:
     for keyBind in keyBinds:
         keyCode = keyBind[keyCodeLable]
         ttsRate = keyBind[ttsRateLable]
-        text = SentenceSplitting.TextToSentences(keyBind[textLable])
+        text = TextToSentences(keyBind[textLable])
         result[str(keyCode)] = Keybind(ttsRate, text)
     
     return result

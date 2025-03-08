@@ -1,12 +1,9 @@
 import keyboard
-import time
 import pyttsx3
-import KeyBindsParsing
+from KeyBindsParsing import GetKeyBinds
+from KeyboardInteraction import SimulateKeyPress, SuspendGameplayInputs, UnSuspendGameplayInputs, T, ENTER, ESCAPE
 
 # Constants
-tScanCode = 20
-enterScanCode = 28
-escapeScanCode = 1
 keybindsFileName = "KeyBinds.json" 
 
 # Variables
@@ -19,12 +16,11 @@ tts.setProperty("volume", 0)
 
 # Write message with delay of aproximated message length
 def WriteMessage(text: str):
-    keyboard.press(tScanCode)
-    keyboard.release(tScanCode)
-    time.sleep(0.1)
+    SuspendGameplayInputs()
+    SimulateKeyPress(T)
     keyboard.write(text)
-    keyboard.press(enterScanCode)
-    keyboard.release(enterScanCode)
+    SimulateKeyPress(ENTER)
+    UnSuspendGameplayInputs()
     tts.say(text)
     tts.runAndWait()
 
@@ -34,7 +30,7 @@ def OnKeyPressed(keyboardEvent: keyboard.KeyboardEvent):
     global pressedKey
 
     # Close application if escape is pressed
-    if(keyboardEvent.scan_code == escapeScanCode):
+    if(keyboardEvent.scan_code == ESCAPE):
         closing = True
     
     # Process keybind
@@ -50,7 +46,7 @@ def main():
     global closing
 
     # Initialize application
-    keyBinds = KeyBindsParsing.GetKeyBinds(keybindsFileName)
+    keyBinds = GetKeyBinds(keybindsFileName)
     keyboard.hook(OnKeyPressed)
     print("Ready for use")
 
