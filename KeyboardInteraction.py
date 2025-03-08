@@ -20,7 +20,7 @@ ALT = 56
 def SimulateKeyPress(scanCode: int):
     keyboard.press(scanCode)
     keyboard.release(scanCode)
-    time.sleep(0.1)
+    time.sleep(0.01)
 
 # Releases all currently pressed keys for the game input
 def SuspendGameplayInputs():
