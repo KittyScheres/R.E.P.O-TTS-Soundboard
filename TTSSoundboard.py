@@ -4,7 +4,7 @@ from KeyBindsParsing import GetKeyBinds
 from KeyboardInteraction import SimulateKeyPress, SuspendGameplayInputs, UnSuspendGameplayInputs, T, ENTER, ESCAPE
 
 # Constants
-keybindsFileName = "KeyBinds.json" 
+keybindsFileName = "KeyBinds.json"
 
 # Variables
 pressedKey = ""
@@ -48,7 +48,6 @@ def main():
     # Initialize application
     keyBinds = GetKeyBinds(keybindsFileName)
     keyboard.hook(OnKeyPressed)
-    print("Ready for use")
 
     # Check for closing button press
     while True:

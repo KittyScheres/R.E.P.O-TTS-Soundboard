@@ -1,9 +1,0 @@
-{
-    "Keybinds" : [
-        {
-            "KeyCode" : 71,
-            "TtsRate" : 120,
-            "Text" : "This is an example text"
-        }
-    ]
-}
