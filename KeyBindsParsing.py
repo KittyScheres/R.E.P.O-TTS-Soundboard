@@ -9,8 +9,8 @@ textLable = "Text"
 
 # Structure for storing keybinds
 class Keybind:
-    ttsRate = 120
-    text = []
+    ttsRate: int = 120
+    text: list = []
     
     def __init__(self, ttsRate, text):
         self.ttsRate = ttsRate

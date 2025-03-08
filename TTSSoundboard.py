@@ -6,6 +6,7 @@ import KeyBindsParsing
 # Constants
 tScanCode = 20
 enterScanCode = 28
+escapeScanCode = 1
 keybindsFileName = "KeyBinds.json" 
 
 # Variables
@@ -33,7 +34,7 @@ def OnKeyPressed(keyboardEvent: keyboard.KeyboardEvent):
     global pressedKey
 
     # Close application if escape is pressed
-    if(keyboardEvent.scan_code == 1):
+    if(keyboardEvent.scan_code == escapeScanCode):
         closing = True
     
     # Process keybind
