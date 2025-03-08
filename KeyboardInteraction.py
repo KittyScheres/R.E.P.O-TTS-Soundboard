@@ -12,12 +12,13 @@ LSHIFT = 42
 CTRL = 29
 ENTER = 28
 ESCAPE = 1
+ALT = 56
 
 # Simulate the pressing of a key
 def SimulateKeyPress(scanCode: int):
     keyboard.press(scanCode)
     keyboard.release(scanCode)
-    time.sleep(0.01)
+    time.sleep(0.1)
 
 # Releases all currently pressed keys for the game input
 def SuspendGameplayInputs():
