@@ -1,5 +1,6 @@
 import keyboard
 import pyttsx3
+import subprocess
 from KeyBindsParsing import GetKeyBinds
 from KeyboardInteraction import SimulateKeyPress, SuspendGameplayInputs, UnSuspendGameplayInputs, T, ENTER, ESCAPE, ALT
 
@@ -9,7 +10,6 @@ keybindsFileName = "KeyBinds.json"
 # Variables
 pressedKey = ""
 escapePressed = False
-altPressed = False
 
 # Text to speech setup
 tts = pyttsx3.init()
@@ -33,16 +33,12 @@ def OnKeyPressed(keyboardEvent: keyboard.KeyboardEvent):
     global pressedKey
 
     # Close application if escape is pressed
-    if(keyboardEvent.scan_code == ESCAPE):
-        escapePressed = keyboardEvent.event_type == keyboard.KEY_DOWN
-
-    # Close application if escape is pressed
-    if(keyboardEvent.scan_code == ALT):
-        altPressed = keyboardEvent.event_type == keyboard.KEY_DOWN
+    if((keyboardEvent.scan_code == ESCAPE) and (keyboardEvent.event_type == keyboard.KEY_DOWN)):
+        escapePressed = True
     
     # Process keybind
     stringScanCode = str(keyboardEvent.scan_code)
-    if((not pressedKey) and (not escapePressed and not altPressed)):
+    if((not pressedKey) and (not escapePressed) and (keyboardEvent.event_type == keyboard.KEY_DOWN)):
         pressedKey = stringScanCode
         
 
@@ -51,7 +47,6 @@ def main():
     # Access global varibles
     global pressedKey
     global escapePressed
-    global altPressed
 
     # Initialize application
     keyBinds = GetKeyBinds(keybindsFileName)
@@ -67,10 +62,9 @@ def main():
                 tts.setProperty("rate", keybind.ttsRate)
                 for sentence in keybind.text:
                     WriteMessage(sentence)
+                    if(escapePressed):
+                        escapePressed = False
+                        break
             pressedKey = ""
-
-        # Stop application
-        if(escapePressed and altPressed):
-            break
 
 main()
